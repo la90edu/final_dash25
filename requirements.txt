@@ -1,23 +1,9 @@
-# Core dependencies
+# Core Streamlit and data processing
 streamlit==1.29.0
-pandas==2.1.4
-numpy==1.24.3
+
 
 # Google Sheets integration
 gspread==5.12.0
 google-auth==2.23.4
 google-auth-oauthlib==1.1.0
 google-auth-httplib2==0.1.1
-
-# Data visualization
-plotly==5.17.0
-matplotlib==3.8.2
-seaborn==0.13.0
-
-# Additional utilities
-openpyxl==3.1.2
-xlsxwriter==3.1.9
-python-dotenv==1.0.0
-
-# Optional: for better performance
-pyarrow==14.0.1
