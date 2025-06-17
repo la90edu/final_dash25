@@ -1,55 +1,30 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
 
 def main():
     st.set_page_config(
-        page_title="עמוד עם כרטיסיות קבועות",
+        page_title="עמוד עם כרטיסיות",
         page_icon="📂",
         layout="wide"
     )
     
-    st.title("📂 עמוד עם כרטיסיות קבועות")
+    st.title("📂 עמוד עם כרטיסיות")
     
-    # יצירת מיכל קבוע עבור הכרטיסיות
-    tabs_container = st.container()
+    # יצירת כרטיסיות עם st.tabs
+    tab1, tab2, tab3, tab4 = st.tabs(["🏠 בית", "📊 נתונים", "📈 גרפים", "⚙️ הגדרות"])
     
-    with tabs_container:
-        # יצירת כרטיסיות עם מפתחות ייחודיים
-        if 'active_tab' not in st.session_state:
-            st.session_state.active_tab = 0
-        
-        # יצירת כפתורי כרטיסיות
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            if st.button("🏠 בית", key="tab1", use_container_width=True):
-                st.session_state.active_tab = 0
-        
-        with col2:
-            if st.button("📊 נתונים", key="tab2", use_container_width=True):
-                st.session_state.active_tab = 1
-        
-        with col3:
-            if st.button("📈 גרפים", key="tab3", use_container_width=True):
-                st.session_state.active_tab = 2
-        
-        with col4:
-            if st.button("⚙️ הגדרות", key="tab4", use_container_width=True):
-                st.session_state.active_tab = 3
+    with tab1:
+        show_home_tab()
     
-    st.markdown("---")
+    with tab2:
+        show_data_tab()
     
-    # הצגת תוכן בהתאם לכרטיסיה הפעילה
-    content_container = st.container()
+    with tab3:
+        show_charts_tab()
     
-    with content_container:
-        if st.session_state.active_tab == 0:
-            show_home_tab()
-        elif st.session_state.active_tab == 1:
-            show_data_tab()
-        elif st.session_state.active_tab == 2:
-            show_charts_tab()
-        elif st.session_state.active_tab == 3:
-            show_settings_tab()
+    with tab4:
+        show_settings_tab()
 
 def show_home_tab():
     st.header("🏠 עמוד הבית")
@@ -85,17 +60,15 @@ def show_data_tab():
             'כיתה': [f'{i}א' for _ in range(5)]
         }
         
-        st.table(data)
+        df = pd.DataFrame(data)
+        st.dataframe(df, use_container_width=True)
         
         if i % 3 == 0:
-            st.success(f"סיימת לצפות ב-{i} טבלאות! הכרטיסיות עדיין למעלה?")
+            st.success(f"סיימת לצפות ב-{i} טבלאות!")
 
 def show_charts_tab():
     st.header("📈 גרפים ותרשימים")
     st.write("כאן יוצגו הגרפים השונים")
-    
-    import pandas as pd
-    import numpy as np
     
     # תוכן לדוגמה
     for i in range(1, 12):
@@ -108,10 +81,10 @@ def show_charts_tab():
             columns=['A', 'B', 'C']
         )
         
-        st.line_chart(chart_data)
+        st.line_chart(chart_data, use_container_width=True)
         
         if i % 4 == 0:
-            st.warning(f"צפית ב-{i} גרפים! בדוק שהכרטיסיות עדיין נמצאות למעלה")
+            st.warning(f"צפית ב-{i} גרפים!")
 
 def show_settings_tab():
     st.header("⚙️ הגדרות המערכת")
