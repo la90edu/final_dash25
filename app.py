@@ -1,4 +1,4 @@
-import cards
+import stayup
 
 # הפעלת הפונקציה הראשית מ-cards.py
-cards.main()
+stayup.main()
