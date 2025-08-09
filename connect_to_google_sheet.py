@@ -7,8 +7,8 @@ import os
 
 scopes = [ "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_file("/etc/secrets/cred.json", scopes=scopes)#for deployment
-#creds = Credentials.from_service_account_file("cred.json", scopes=scopes)#local development
+#creds = Credentials.from_service_account_file("/etc/secrets/cred.json", scopes=scopes)#for deployment
+creds = Credentials.from_service_account_file("cred.json", scopes=scopes)#local development
 client = gspread.authorize(creds)
 
 #sheet_id=os.getenv("GOOGLE_SHEET_ID")
@@ -24,7 +24,14 @@ sheet2 = spreadsheet.worksheet('Sheet1')
 
 
 
-def return_data():
+def return_data_first():
     sheet1 = client.open_by_url(spreadsheet_url).sheet1
     data=sheet1.get_all_records()
+    return data
+
+def return_data_last():
+    # sheet2 = client.open_by_url(spreadsheet_url).sheet2
+    spreadsheet = client.open_by_url(spreadsheet_url)
+    sheet2 = spreadsheet.worksheet('Sheet2')  # או השם הנכון של הגיליון
+    data=sheet2.get_all_records()
     return data
