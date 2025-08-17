@@ -42,10 +42,10 @@ def return_df_1():
     df=pd.DataFrame(data)
 
     # השתמש במחלקה הסטטית ישירות, ללא יצירת instance
-    global_avg=consts.return_global_average(df, anigmas.Anigmas1)
-    st.session_state.global_average1=global_avg
-    heg_avg=consts.init_heg_avg(df, anigmas.Anigmas1)
-    st.session_state.heg_avg1=heg_avg
+    # global_avg=consts.return_global_average(df, anigmas.Anigmas1)
+    # st.session_state.global_average1=global_avg
+    # heg_avg=consts.init_heg_avg(df, anigmas.Anigmas1)
+    # st.session_state.heg_avg1=heg_avg
 
     return df
 
@@ -54,10 +54,10 @@ def return_df_2():
     df=pd.DataFrame(data)
     
     # השתמש במחלקה הסטטית ישירות, ללא יצירת instance
-    global_avg=consts.return_global_average(df, anigmas.Anigmas2)
-    st.session_state.global_average2=global_avg
-    heg_avg=consts.init_heg_avg(df, anigmas.Anigmas2)
-    st.session_state.heg_avg2=heg_avg
+    # global_avg=consts.return_global_average(df, anigmas.Anigmas2)
+    # st.session_state.global_average2=global_avg
+    # heg_avg=consts.init_heg_avg(df, anigmas.Anigmas2)
+    # st.session_state.heg_avg2=heg_avg
     return df
 
 #for selectbox 
