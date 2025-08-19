@@ -63,19 +63,20 @@ def main():
             # selected_school = st.selectbox("בחר בית ספר:", unique_schools, key="school_selector")
             filtered_df2 = df_all_2[df_all_2['school'] == selected_school] #if selected_school else df2
 
-            if not filtered_df2.empty:
-                st.session_state.filtered_df2 = filtered_df2
-                show_tabs()
-            else:
+            if  filtered_df2.empty:
                 st.warning(" לא נמצאו נתוני שאלון שני")
-                filtered_df = df_all_2
+                
 
-    show_tabs()
+    st.dataframe(filtered_df1, use_container_width=True)
+    st.dataframe(filtered_df2, use_container_width=True)
+    
+    show_tabs(filtered_df1, filtered_df2)
     # יצירת tabs עם סטיילינג
 
-def show_tabs():
+def show_tabs(df1,df2):
         setup_tabs_styling()
-
+        
+        
         tab1, tab2 = st.tabs([
                 "📈היגדים ", 
                 "👥 רפלקציה", 
@@ -84,10 +85,10 @@ def show_tabs():
     
         with tab1:
                 # tab1_hegedim2.show(st.session_state.filtered_df2)
-                tabs.Tab1(st.session_state.filtered_df1, st.session_state.filtered_df2).return_text()
+                tabs.Tab1(df1,df2).return_text()
 
         with tab2:
-                tabs.Tab2(st.session_state.filtered_df1, st.session_state.filtered_df2).return_text()
+                tabs.Tab2(df1,df2).return_text()
 
         # show_charts_page()
 
@@ -274,16 +275,16 @@ def show_home_page():
         except Exception as e:
             st.error(f"שגיאה בטעינת הנתונים: {str(e)}")
 
-def show_data_page():
-    pass
+# def show_data_page():
+#     pass
 
-def show_charts_page():
-    pass
+# def show_charts_page():
+#     pass
 
 if __name__ == "__main__":
     main()
 
 
-init.init()
+# init.init()
 
 

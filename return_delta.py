@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 from normalization import Normalization
+import streamlit as st
 
 class Delta_Returned:
 
@@ -13,7 +14,9 @@ class Delta_Returned:
     def return_delta_ref(self):
         cut1 = self._cut1.cut_ref()
         cut2 = self._cut2.cut_ref()
-
+        
+        st.dataframe(cut1)
+        st.dataframe(cut2)
         normalization_instance = Normalization(cut1, cut2).return_delta()
         return normalization_instance
     
@@ -104,6 +107,13 @@ class Cut_abstract (ABC):
     @abstractmethod
     def cut_future_future(self):
         pass
+    
+    def remove_empty_lines(self):
+        # Replace empty strings with NaN
+        self.df = self.df.replace(['', ' ', 'NA', 'N/A', 'null', None], pd.NA)
+        # Drop rows with NaN values
+        self.df = self.df.dropna()
+        return self.df
         
 class Cut1(Cut_abstract):
         
@@ -111,7 +121,9 @@ class Cut1(Cut_abstract):
         super().__init__(df)    
             
     def cut_ref(self):
-        return self.df[['ref_1', 'ref_2', 'ref_3', 'ref_4', 'ref_5', 'ref_6', 'ref_7', 'ref_8', 'ref_9']]
+        self.df = self.df[['ref_2', 'ref_3', 'ref_4', 'ref_5', 'ref_6', 'ref_7']]
+        super().remove_empty_lines()
+        return self.df
 
     def cut_ici(self):
         return self.df[['heg_1','heg_5','heg_10','heg_12','heg_24','heg_26']]
@@ -140,7 +152,9 @@ class Cut2(Cut_abstract):
         super().__init__(df)    
             
     def cut_ref(self):
-        return self.df[['ref_1', 'ref_2', 'ref_3']]
+        self.df=self.df[['ref_1', 'ref_2', 'ref_3']]
+        super().remove_empty_lines()
+        return self.df
 
     def cut_ici(self):
         return self.df[['heg_3', 'heg_7', 'heg_10', 'heg_12', 'heg_20']]

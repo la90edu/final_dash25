@@ -3,36 +3,37 @@ import numpy as np
 
 class Normalization:
     def __init__(self, df1, df2):
-        self.df1 = df1.select_dtypes(include=[np.number])
-        self.df2 = df2.select_dtypes(include=[np.number])
+        # ניקוי ערכים ריקים ובחירת רק נומריים
+        self.df1 = df1.dropna()
+        self.df2 = df2.dropna()
 
     #שלב 3 
-    def _normalize(self):        
-            # חישוב סטטיסטיקות - Calculate statistics
-        mean_df1 = self.df1.mean()
-        std_df1 = self.df1.std()
-            
-        mean_df2 = self.df2.mean()
-        std_df2 = self.df2.std()
-            
-            # יישום טרנספורמציה - Apply transformation
-            # for each participant in T0:
-        # if std_df1 > 0:
+    def _normalize(self):       
+        
+        #חישוב הממוצע וסטיית תקן לT0 וT1 
+        mean_df1 = self.df1.to_numpy().mean()
+        std_df1 = self.df1.to_numpy().std()
+        mean_df2 = self.df2.to_numpy().mean()
+        std_df2 = self.df2.to_numpy().std()
+
+        # עבור כל משתתף ב-T0: הערך שלו פחות הממוצע חלקי הסטיית תקן
         df1_normalized_vector = (self.df1 - mean_df1) / std_df1
 
-            # for each participant in T1:
-        # if std_df2 > 0:
+        # עבור כל משתתף ב-T1: הערך שלו פחות הממוצע חלקי הסטיית תקן
         df2_normalized_vector = (self.df2 - mean_df2) / std_df2
 
-        df1_mean=df1_normalized_vector.mean()
-        df2_mean=df2_normalized_vector.mean()
+        #ממוצע של כל הערכים שחישבנו בשלב הקודם - עבור T0 ו-T1
+        df1_mean=df1_normalized_vector.to_numpy().mean()
+        df2_mean=df2_normalized_vector.to_numpy().mean()
 
+        #החזרת ההפרשת בין שתי הממוצעים משלב קודם
         return df1_mean, df2_mean
 
 
     def return_delta(self):
         """Return the delta between the two normalized means."""
         df1_mean, df2_mean = self._normalize()
+        #החזרת ההפרשת בין שתי הממוצעים משלב קודם 
         return df2_mean - df1_mean
 
 

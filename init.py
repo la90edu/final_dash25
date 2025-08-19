@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-import consts
+import old.consts as consts
 import connect_to_google_sheet
-import anigmas
+import old.anigmas as anigmas
 
 
 def init():
@@ -40,6 +40,11 @@ def init():
 def return_df_1():
     data=connect_to_google_sheet.return_data_first()
     df=pd.DataFrame(data)
+    
+    # ניקוי ערכים ריקים - החלפה ב-NaN
+    # df = df.replace(['', ' ', 'NA', 'N/A', 'null', None], pd.NA)
+
+   
 
     # השתמש במחלקה הסטטית ישירות, ללא יצירת instance
     # global_avg=consts.return_global_average(df, anigmas.Anigmas1)
@@ -53,6 +58,8 @@ def return_df_2():
     data=connect_to_google_sheet.return_data_last()
     df=pd.DataFrame(data)
     
+    # ניקוי ערכים ריקים - החלפה ב-NaN
+    # df = df.replace(['', ' ', 'NA', 'N/A', 'null', None], pd.NA)
     # השתמש במחלקה הסטטית ישירות, ללא יצירת instance
     # global_avg=consts.return_global_average(df, anigmas.Anigmas2)
     # st.session_state.global_average2=global_avg

@@ -21,9 +21,16 @@ class Tab1(Tabs_abstract):
         super().__init__(df1, df2)
 
     def return_text(self):
+        ici= self._calculate_ici()
+        st.write(f"Delta for Tab 1: {ici}")
         st.write("This is Tab 1")
 
+    def _calculate_ici(self):
+        answer = return_delta.Delta_Returned(self.df1, self.df2).return_delta_ici()
+        return answer
+    
     def calculate_delta(self):
+        
         st.write("Calculating delta for Tab 1")
  
  #ref       
