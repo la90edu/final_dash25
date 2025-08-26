@@ -15,8 +15,8 @@ class Delta_Returned:
         cut1 = self._cut1.cut_ref()
         cut2 = self._cut2.cut_ref()
         
-        st.dataframe(cut1)
-        st.dataframe(cut2)
+        # st.dataframe(cut1)
+        # st.dataframe(cut2)
         normalization_instance = Normalization(cut1, cut2).return_delta()
         return normalization_instance
     
@@ -129,7 +129,7 @@ class Cut1(Cut_abstract):
         return self.df[['heg_1','heg_5','heg_10','heg_12','heg_24','heg_26']]
 
     def cut_risc(self):
-        return self.df[['heg_4','"heg_14','heg_18','heg_19']]
+        return self.df[['heg_4','heg_14','heg_18','heg_19']]
 
     def cut_future_negetive_past(self):
         return self.df[['heg_2','heg_13','heg_23']]

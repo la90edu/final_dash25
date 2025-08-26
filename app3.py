@@ -67,28 +67,25 @@ def main():
                 st.warning(" לא נמצאו נתוני שאלון שני")
                 
 
-    st.dataframe(filtered_df1, use_container_width=True)
-    st.dataframe(filtered_df2, use_container_width=True)
+  
     
-    show_tabs(filtered_df1, filtered_df2)
+    show_tabs(filtered_df1, filtered_df2,selected_school)
     # יצירת tabs עם סטיילינג
 
-def show_tabs(df1,df2):
+def show_tabs(df1,df2,selected_school):
         setup_tabs_styling()
         
         
-        tab1, tab2 = st.tabs([
-                "📈היגדים ", 
-                "👥 רפלקציה", 
-                 
+        tab1,  = st.tabs([
+                "ניתוח"     
             ])
     
         with tab1:
                 # tab1_hegedim2.show(st.session_state.filtered_df2)
-                tabs.Tab1(df1,df2).return_text()
+                main_tab=tabs.Tab1(df1,df2,selected_school)
+                main_tab.return_text()
 
-        with tab2:
-                tabs.Tab2(df1,df2).return_text()
+     
 
         # show_charts_page()
 
