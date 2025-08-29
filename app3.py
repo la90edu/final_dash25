@@ -11,6 +11,7 @@ def main():
         page_icon="📌",
         layout="wide"
     )
+    apply_rtl_layout()
     
     # הוספת לוגו לסיידבר
     try:
@@ -32,7 +33,7 @@ def main():
     display_hitech_image()
 
     # כותרת ראשית
-    st.title("🏫 מערכת ניהול תלמידים")
+    st.title("🏫 פידבק למנהל על תוכנית הציר המנטלי ")
     st.markdown("---")
 
     # קליטת פרמטרים מה-URL
@@ -54,7 +55,8 @@ def main():
 
     if not df_all_1.empty and 'school' in df_all_1.columns:
         unique_schools = df_all_1["school"].unique().tolist()
-        selected_school = st.selectbox("בחר בית ספר:", unique_schools, key="school_selector")
+        with st.expander("בחר בית ספר", expanded=True):
+            selected_school = st.selectbox("בחר בית ספר:", unique_schools, key="school_selector")
         filtered_df1 = df_all_1[df_all_1['school'] == selected_school]
         st.session_state.filtered_df1 = filtered_df1
        
@@ -66,89 +68,139 @@ def main():
             if  filtered_df2.empty:
                 st.warning(" לא נמצאו נתוני שאלון שני")
                 
-
-  
-    
-    show_tabs(filtered_df1, filtered_df2,selected_school)
+    show_info(filtered_df1, filtered_df2,selected_school)
     # יצירת tabs עם סטיילינג
 
-def show_tabs(df1,df2,selected_school):
-        setup_tabs_styling()
-        
-        
-        tab1,  = st.tabs([
-                "ניתוח"     
-            ])
-    
-        with tab1:
-                # tab1_hegedim2.show(st.session_state.filtered_df2)
-                main_tab=tabs.Tab1(df1,df2,selected_school)
-                main_tab.return_text()
+def show_info(df1,df2,selected_school):
+     
+    main_tab=tabs.Tab1(df1,df2,selected_school)
+    main_tab.return_text()
 
      
 
         # show_charts_page()
 
-def display_school_class_selector():
-    """הצגת בורר בית ספר וכיתה"""
-    st.subheader("🏫 בחירת בית ספר וכיתה")
+# def display_school_class_selector():
+#     """הצגת בורר בית ספר וכיתה"""
+#     st.subheader("🏫 בחירת בית ספר וכיתה")
     
     
-        # טעינת הנתונים
-    df1= init.return_df_1()
-    df2 = init.return_df_2()
-    if df1.empty:
-        df1=None
-    if df2.empty:
-        df2=None
+#         # טעינת הנתונים
+#     df1= init.return_df_1()
+#     df2 = init.return_df_2()
+#     if df1.empty:
+#         df1=None
+#     if df2.empty:
+#         df2=None
         
-    st.session_state.df1 = df1
-    st.session_state.df2 = df2
+#     st.session_state.df1 = df1
+#     st.session_state.df2 = df2
     
         
-    if not df2.empty and 'school' in df2.columns:
-            unique_schools = df2["school"].unique().tolist()
-            selected_school = st.selectbox("בחר בית ספר:", unique_schools, key="school_selector")
-            filtered_df = df2[df2['school'] == selected_school] #if selected_school else df2
-            st.session_state.filtered_df2 = filtered_df 
-            return True               
-    else:
-            st.warning("לא נמצאו נתונים לסינון")
-            filtered_df = df2
-            return False
+#     if not df2.empty and 'school' in df2.columns:
+#             unique_schools = df2["school"].unique().tolist()
+#             selected_school = st.selectbox("בחר בית ספר:", unique_schools, key="school_selector")
+#             filtered_df = df2[df2['school'] == selected_school] #if selected_school else df2
+#             st.session_state.filtered_df2 = filtered_df 
+#             return True               
+#     else:
+#             st.warning("לא נמצאו נתונים לסינון")
+#             filtered_df = df2
+#             return False
 
     
     
-def setup_tabs_styling():
-    """הגדרת עיצוב הטאבים"""
-    st.markdown("""
-    <style>
-    /* יצמדת טאבים למרכז */
-    .stTabs [data-baseweb="tab-list"] {
-        direction: rtl;
-        justify-content: center;
-    }
-    .stTabs [data-baseweb="tab"] {
-        direction: rtl;
-    }
+# def setup_tabs_styling():
+#     """הגדרת עיצוב הטאבים"""
+#     st.markdown("""
+#     <style>
+#     /* יצמדת טאבים למרכז */
+#     .stTabs [data-baseweb="tab-list"] {
+#         direction: rtl;
+#         justify-content: center;
+#     }
+#     .stTabs [data-baseweb="tab"] {
+#         direction: rtl;
+#     }
     
-    /* הגדלת גודל הטאבים */
-    .stTabs [data-baseweb="tab"] > div {
-        font-size: 28px !important;
-        font-weight: bold !important;
-    }
+#     /* הגדלת גודל הטאבים */
+#     .stTabs [data-baseweb="tab"] > div {
+#         font-size: 28px !important;
+#         font-weight: bold !important;
+#     }
     
-    /* ריווח בין הטאבים */
-    .stTabs [data-baseweb="tab"] {
-        font-size: 20px !important;
-        padding: 15px 25px !important;
-        font-weight: bold !important;
-    }
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 10px !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+#     /* ריווח בין הטאבים */
+#     .stTabs [data-baseweb="tab"] {
+#         font-size: 20px !important;
+#         padding: 15px 25px !important;
+#         font-weight: bold !important;
+#     }
+#     .stTabs [data-baseweb="tab-list"] {
+#         gap: 10px !important;
+#     }
+#     </style>
+#     """, unsafe_allow_html=True)
+
+def apply_rtl_layout():
+    """החלת עיצוב גלובלי לימין-לשמאל עבור כל רכיבי Streamlit."""
+    st.markdown(
+        """
+        <style>
+        /* יישום RTL גלובלי */
+        html, body, [data-testid="stAppViewContainer"], .block-container {
+            direction: rtl;
+            text-align: right;
+            font-size: 30px; /* בסיס גדול יותר לקריאות */
+        }
+        .stMarkdown, .stText, .stTitle, .stHeader, .stSubheader,
+        h1, h2, h3, h4, h5, h6, p {
+            direction: rtl;
+            text-align: right;
+        }
+        /* הגדלת כותרות וטקסט */
+        h1 { font-size: 2.4rem !important; }
+        h2 { font-size: 2.0rem !important; }
+        h3 { font-size: 1.7rem !important; }
+        p, li, .stMarkdown { font-size: 1.25rem !important; } /* ~20px */
+        /* טפסים וקלטים */
+        label, .stSelectbox, .stTextInput, .stNumberInput, .stMultiSelect,
+        .stTextArea, .stDateInput, .stRadio, .stCheckbox, .stSlider, .stButton {
+            direction: rtl;
+            text-align: right;
+            font-size: 1.2rem;
+        }
+        input, textarea, select {
+            direction: rtl !important;
+            text-align: right !important;
+            font-size: 1.2rem !important;
+        }
+        .stButton button { font-size: 1.25rem !important; }
+        /* Selectbox טקסט פנימי */
+        .stSelectbox div[data-baseweb="select"] { font-size: 1.2rem !important; }
+        .stSelectbox [data-baseweb="menu"] { font-size: 1.2rem !important; }
+        /* תוויות וידג'טים */
+        [data-testid="stWidgetLabel"] p { font-size: 1.2rem !important; }
+        /* טבלאות ו‑DataFrame */
+        [data-testid="stTable"] table, [data-testid="stDataFrame"] table {
+            direction: rtl;
+        }
+        [data-testid="stTable"] th, [data-testid="stTable"] td,
+        [data-testid="stDataFrame"] th, [data-testid="stDataFrame"] td {
+            text-align: right;
+            font-size: 1.15rem !important;
+        }
+        /* Metric widgets */
+        [data-testid="stMetricValue"] { font-size: 2.0rem !important; }
+        [data-testid="stMetricLabel"] { font-size: 1.1rem !important; }
+        /* התראות */
+        [data-testid="stAlert"] { direction: rtl; text-align: right; }
+        /* טאבים (גיבוי ל‑RTL) */
+        .stTabs [data-baseweb="tab-list"] { direction: rtl; }
+        .stTabs [data-baseweb="tab"] { direction: rtl; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 def display_hitech_image():
     """הצגת תמונה קטנה של hi_tech"""

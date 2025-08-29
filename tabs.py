@@ -1,8 +1,9 @@
 import pandas as pd
 import streamlit as st
 from abc import ABC, abstractmethod
+import openAI_llm
 import return_delta
-from landchain_folder.write_answer import Write_LLM_Answer
+import lang
 
 class Tabs_abstract:
     def __init__(self, df1, df2):
@@ -33,21 +34,21 @@ class Tab1(Tabs_abstract):
         self.school_name = school_name 
         
     def return_text(self):
-        answer = Write_LLM_Answer(
-            self.ref_value,
-            self.ici_value,
-            self.risc_value,
-            self.future_negetive_past_value,
-            self.future_positive_past_value,
-            self.future_fatalic_present_value,
-            self.future_hedonistic_present_value,
-            self.future_future_value,
-        )
+        answer = {
+            "ref": self.ref_value,
+            "ici": self.ici_value,
+            "risc": self.risc_value,
+            "future_negetive_past": self.future_negetive_past_value,
+            "future_positive_past": self.future_positive_past_value,
+            "future_fatalic_present": self.future_fatalic_present_value,
+            "future_hedonistic_present": self.future_hedonistic_present_value,
+            "future_future": self.future_future_value,
+        }
         # Stream the report live in the UI
         # Add school name if available from df1
         school_name = self.school_name
-        st.session_state["selected_school_name_for_llm"] = school_name
-        answer.stream_all()
+        # openAI_llm.run(answer, school_name)
+        lang.run(answer, school_name)
 
 
  
